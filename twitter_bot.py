@@ -34,16 +34,39 @@ class TwitterBot():
 
         sleep(2)
 
-    def sendTweet(self, tweet):
-        print("Tweeting: " + tweet)
+        self.getTrendingTopics()
 
-        textField = self.driver.find_element_by_xpath('/html/body/div/div/div/div/main/div/div/div/div[1]/div/div[2]/div[2]/div[1]/div/div/div[2]/div[1]/div/div/div/div/div/div/div/div[1]/div[1]/div/div/div/div[2]/div/div/div/div')
-        textField.send_keys(tweet)
+    def sendTweet(self, tweet, picture_path):
+        if (tweet==None):
+            print("You need to input a tweet to do this!")
+        elif (picture_path==None):
+            print("Tweeting: " + tweet)
 
-        tweetButton = self.driver.find_element_by_xpath('/html/body/div/div/div/div/main/div/div/div/div[1]/div/div[2]/div[2]/div[1]/div/div/div[2]/div[2]/div/div/div[2]/div[3]/div/span/span')
-        tweetButton.click()
+            textField = self.driver.find_element_by_xpath('/html/body/div/div/div/div/main/div/div/div/div[1]/div/div[2]/div[2]/div[1]/div/div/div[2]/div[1]/div/div/div/div/div/div/div/div[1]/div[1]/div/div/div/div[2]/div/div/div/div')
+            textField.send_keys(tweet)
 
-        print("Tweet sent!")
+            tweetButton = self.driver.find_element_by_xpath('/html/body/div/div/div/div/main/div/div/div/div[1]/div/div[2]/div[2]/div[1]/div/div/div[2]/div[2]/div/div/div[2]/div[3]/div/span/span')
+            tweetButton.click()
 
-    
 
+            print("Tweet sent!")
+        else:
+            print("Tweeting: \"" + tweet + "\" with a picture")
+
+            textField = self.driver.find_element_by_xpath('/html/body/div/div/div/div/main/div/div/div/div[1]/div/div[2]/div[2]/div[1]/div/div/div[2]/div[1]/div/div/div/div/div/div/div/div[1]/div[1]/div/div/div/div[2]/div/div/div/div')
+            textField.send_keys(tweet)
+
+            upload = self.driver.find_element_by_xpath('/html/body/div/div/div/div/main/div/div/div/div[1]/div/div[2]/div[2]/div[1]/div/div/div[2]/div[2]/div/div/div[1]/input')
+            upload.send_keys(picture_path)
+
+            tweetButton = self.driver.find_element_by_xpath('/html/body/div/div/div/div/main/div/div/div/div[1]/div/div[2]/div[2]/div[1]/div/div/div[2]/div[2]/div/div/div[2]/div[3]/div/span/span')
+            tweetButton.click()
+
+            print("Tweet sent!")
+
+    def getTrendingTopics(self):
+        print("This is what's trending:")
+
+        for x in range(2, 7):
+            trending = self.driver.find_element_by_xpath('/html/body/div/div/div/div/main/div/div/div/div[2]/div/div[2]/div/div/div/div[3]/div/div/section/div/div/div/div/div[' + str(x) + ']/div/div/div[2]/span')
+            print(trending.text)
